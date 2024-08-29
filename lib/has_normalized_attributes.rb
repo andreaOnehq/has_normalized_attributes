@@ -35,7 +35,7 @@ module HasNormalizedAttributes
       args.each do |arg|
         define_method "normalize_#{arg}" do
           if arg == :strip
-            self ? self.strip : self
+            self && self.respond_to?(:strip) ? self.strip : self
           else
             reg_exp = HasNormalizedAttributes.const_get(arg.upcase)
             self && is_a?(String) && match(reg_exp) ? gsub(reg_exp,'') : self
